@@ -1,92 +1,140 @@
 import Navbar from "components/Navbar";
+import Upload from "components/Upload";
 import type { Route } from "./+types/home";
 import { ArrowRight, ArrowUpRight, Clock, Layers } from "lucide-react";
 import Button from "components/ui/Button";
-
+import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Roomify" },
+    { name: "description", content: "AI architecture visualizer" },
   ];
 }
 
 export default function Home() {
+  const navigate = useNavigate();
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+
+  const handleUploadComplete = async (base64: string) => {
+    setUploadedImage(base64)
+    const newId = Date.now().toString();
+
+    navigate(`/visualizer/${newId}`);
+    return true;
+    // 👉 Next step (later):
+    // navigate("/visualizer")
+    // send to API
+  };
+
   return (
     <div className="home">
       <Navbar />
-  <section className="hero">
-    <div className="announce">
-      <div className="dot">
-        <div className="pulse">
-        </div>
 
-      </div>
-        <p>Introducing Roomify 2.O</p>
-    </div>
-    <h1> Build Beutiful Spaces at the speed of thought with Roomify</h1>
-    <p className="subtitle">
-      Rommify is an AI_first design envirnment, that helps you visualize ,render,and ship,architecture projects faster that ever. 
-    </p>
-    <div className="actions">
-      <a href="#upload" className="cta">
-        start Building <ArrowRight className="icon"/>
-      </a>
-      <Button className="demo" variant='outline' size='lg'>
-        Watch Demo
-      </Button>
-    </div>
-    <div id='upload' className="upload-shell">
-      <div className="grid-overlay" />
-      <div className="upload-card">
-        <div className="upload-head">
-          <div className="upload-icon">
-            <Layers className="icon"/>
+      <section className="hero">
+        <div className="announce">
+          <div className="dot">
+            <div className="pulse" />
           </div>
-          <h3>Upload Your Floor plan</h3>
-          <p>Supports JPG,PNGG,formats up to 10Mb</p>
+          <p>Introducing Roomify 2.0</p>
         </div>
-        <p>Upload Images</p>
-      </div>
 
-      
-    </div>
-  </section>
-  <section className="projects">
-    <div className="section-inner">
-      <div className="section-head">
-        <div className="copy">
-          <h2>Projects</h2>
-          <p>your latest work and shared Community Project . all In one Place </p>
+        <h1>
+          Build Beautiful Spaces at the speed of thought with Roomify
+        </h1>
+
+        <p className="subtitle">
+          Roomify is an AI-first design environment that helps you
+          visualize, render, and ship architecture projects faster than ever.
+        </p>
+
+        <div className="actions">
+          <a href="#upload" className="cta">
+            Start Building <ArrowRight className="icon" />
+          </a>
+
+          <Button className="demo" variant="outline" size="lg">
+            Watch Demo
+          </Button>
         </div>
-      </div>
-      <div className="projects-grid">
-        <div className="project-card group">
-          <div className="preview">
-            <img src="https://roomify-mlhuk267-dfwu1i.puter.site/projects/1770803585402/rendered.png" alt="Project" />
-            <div className="badge">
-              <span>Community</span>
+
+        <div id="upload" className="upload-shell">
+          <div className="grid-overlay" />
+
+          <div className="upload-card">
+            <div className="upload-head">
+              <div className="upload-icon">
+                <Layers className="icon" />
+              </div>
+
+              <h3>Upload Your Floor Plan</h3>
+              <p>Supports JPG, PNG formats up to 10MB</p>
+            </div>
+            {uploadedImage && (
+          <div className="mb-6 flex justify-center">
+            <img
+              src={uploadedImage}
+              alt="preview"
+              className="max-w-md rounded-xl shadow-xl"
+            />
+          </div>
+        )}
+
+           <div id="upload" className="upload-shell">
+          <div className="upload-card">
+            <Upload onComplete={handleUploadComplete} />
+          </div>
+        </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="projects">
+        <div className="section-inner">
+          <div className="section-head">
+            <div className="copy">
+              <h2>Projects</h2>
+              <p>
+                Your latest work and shared community projects —
+                all in one place.
+              </p>
             </div>
           </div>
-          <div className="card-body">
-            <div>
-              <h3>Project Boseman Chowdick </h3>
-              <div className="meta">
-                <Clock size={12}/>
-                <span>{new Date('01.01.2027').toLocaleDateString()}</span>
-                <span>Bhavesh Kumbhare</span>
+
+          <div className="projects-grid">
+            <div className="project-card group">
+              <div className="preview">
+                <img
+                  src="https://roomify-mlhuk267-dfwu1i.puter.site/projects/1770803585402/rendered.png"
+                  alt="Project"
+                />
+                <div className="badge">
+                  <span>Community</span>
+                </div>
+              </div>
+
+              <div className="card-body">
+                <div>
+                  <h3>Project Boseman Chowdick</h3>
+
+                  <div className="meta">
+                    <Clock size={12} />
+                    <span>
+                      {new Date("01.01.2027").toLocaleDateString()}
+                    </span>
+                    <span>Bhavesh Kumbhare</span>
+                  </div>
+                </div>
+
+                <div className="arrow">
+                  <ArrowUpRight size={18} />
+                </div>
               </div>
             </div>
-            <div className="arrow">
-              <ArrowUpRight size={18}/>
-            </div>
           </div>
-
         </div>
-      </div>
+      </section>
     </div>
-
-  </section>
-  </div>
-)
+  );
 }
