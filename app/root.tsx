@@ -8,6 +8,7 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
+import { Analytics } from '@vercel/analytics/react'
 import "./app.css";
 import { useEffect, useState } from "react";
 import { getCurrentUser, 
@@ -106,6 +107,7 @@ export default function App() {
         refreshAuth,
       }}
     />
+    <Analytics />
     </main>
   );
 }
