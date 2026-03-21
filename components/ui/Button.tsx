@@ -1,6 +1,6 @@
 // components/ui/Button.tsx
 import React from "react";
-import ".react-router/types/app/routes/+types/home"; // adjust path if needed
+
 
 type ButtonVariant = "primary" | "secondary" | "ghost" | "outline";
 type ButtonSize = "sm" | "md" | "lg";
